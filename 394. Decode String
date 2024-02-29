@@ -1,0 +1,32 @@
+class Solution:
+    def decodeString(self, s: str) -> str:
+        if s=="":
+            return s
+        if s[0].isdigit():
+            n=""
+            for w in s:
+                if w.isdigit():
+                    n+=w
+                else:
+                    n=int(n)
+                    break
+            c=0
+            word=""
+            for i,w in enumerate(s):
+                if w=="[":
+                    c+=1
+                elif w=="]":
+                    c-=1
+                    if c==0:
+                        return n*self.decodeString(word[1:])+self.decodeString(s[i+1:])
+                if c>0:
+                    word+=w
+        else:
+            word2=""
+            for i,w in enumerate(s):
+                if w=="[" or w.isdigit():
+                    return word2+self.decodeString(s[i:])
+                else:
+                    word2+=w
+            return word2
+        return ""
